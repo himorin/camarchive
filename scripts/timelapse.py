@@ -45,9 +45,9 @@ def BuildImgList(base, dir, ext):
       flist.write("file '{}/{}'\n".format(dir, fname))
 
 def ExecVideoBuild(dir, t_date):
-  cmd = ["ffmpeg", "-f", "concat", "-i", "{}/{}/{}".format(DEF_IMG_DNAME, t_date, DEF_FLIST), "-r",
+  cmd = ["ffmpeg", "-f", "concat", "-i", "./{}/{}/{}".format(DEF_IMG_DNAME, t_date, DEF_FLIST), "-r",
          "10", "-an", "-crf", "28", "-c:v", "libx265", "-preset", "veryfast", "-pix_fmt", "yuv420p", 
-         "{}/{}.mp4".format(DEF_MOV_DNAME, t_date)]
+         "./{}/{}.mp4".format(DEF_MOV_DNAME, t_date)]
   subprocess.run(cmd, cwd = dir)
 
 def DeleteOld(dir, t_del):
