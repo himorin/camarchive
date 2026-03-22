@@ -10,6 +10,7 @@ import requests
 DEF_CONF_NAME = "../common/config.json"
 DEF_FMT_DATE = "%Y%m%d"
 DEF_FMT_FULL = "%Y%m%d%H%M%S"
+DEF_IMG_DNAME = "/image/"
 
 _debug = lambda *args: None
 _debug_level = 0
@@ -78,5 +79,6 @@ if __name__ == "__main__":
     fname = run_next.strftime(DEF_FMT_FULL)
     run_next += run_delta
     for tgt in run_conf["targets"].keys():
-      ArchiveImage(f_head, tgt + "/" + dname, fname, run_conf["targets"][tgt])
+      # XXX: for now, no thread used here
+      ArchiveImage(f_head, tgt + DEF_IMG_DNAME + dname, fname, run_conf["targets"][tgt])
 
