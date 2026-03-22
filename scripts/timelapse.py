@@ -45,6 +45,7 @@ def BuildImgList(base, dir, ext):
       flist.write("file '{}'\n".format(fname))
 
 def ExecVideoBuild(dir, t_date):
+  os.makedirs(dir + "/" + DEF_MOV_DNAME, exist_ok = True)
   cmd = ["ffmpeg", "-f", "concat", "-i", "./{}/{}/{}".format(DEF_IMG_DNAME, t_date, DEF_FLIST), "-r",
          "10", "-an", "-crf", "28", "-c:v", "libx265", "-preset", "veryfast", "-pix_fmt", "yuv420p", 
          "./{}/{}.mp4".format(DEF_MOV_DNAME, t_date)]
