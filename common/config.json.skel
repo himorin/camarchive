@@ -1,0 +1,13 @@
+{
+  "interval": "archive interval in s",
+  "keepimage": "days for keeping raw images",
+  "targets": {
+    "name": {
+      "url": "url-to-archive",
+      "user": "username",
+      "pass": "password",
+      "ext": "jpg"
+    }
+  },
+  "storage": "/data/storage/root/"
+}
