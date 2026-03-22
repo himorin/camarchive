@@ -32,23 +32,23 @@ def _DebugPrint(msg):
   c_now = datetime.now().replace(microsecond = 0)
   print("{}: {}".format(c_now.isoformat(), msg))
 
-def BuildImgList(dir, ext):
+def BuildImgList(base, dir, ext):
   img_list = []
-  alldir = os.listdir(dir)
+  alldir = os.listdir(base + dir)
   ext = "." + ext
   for fname in alldir:
-    if fname.endswith(ext) and os.path.getsize(dir + "/" + fname) > 0:
+    if fname.endswith(ext) and os.path.getsize(base + dir + "/" + fname) > 0:
       img_list.append(fname)
   img_list.sort()
-  with open(dir + "/" + DEF_FLIST, 'w') as flist:
+  with open(base + dir + "/" + DEF_FLIST, 'w') as flist:
     for fname in img_list:
       flist.write("file '{}/{}'\n".format(dir, fname))
 
 def ExecVideoBuild(dir, t_date):
-  cmd = ["ffmpeg", "-f", "concat", "-i", "{}/{}/{}/{}".format(dir, DEF_IMG_DNAME, t_date, DEF_FLIST), "-r",
+  cmd = ["ffmpeg", "-f", "concat", "-i", "{}/{}/{}".format(DEF_IMG_DNAME, t_date, DEF_FLIST), "-r",
          "10", "-an", "-crf", "28", "-c:v", "libx265", "-preset", "veryfast", "-pix_fmt", "yuv420p", 
-         "{}/{}/{}.mp4".format(dir, DEF_MOV_DNAME, t_date)]
-  subprocess.call(cmd)
+         "{}/{}.mp4".format(DEF_MOV_DNAME, t_date)]
+  subprocess.run(cmd, cwd = dir)
 
 def DeleteOld(dir, t_del):
   deldir = dir + "/" + DEF_IMG_DNAME + "/" + t_del
@@ -78,6 +78,6 @@ if __name__ == "__main__":
   dt -= datetime.timedelta(days = run_conf["keepimage"] - 1)
   t_del = dt.strftime(DEF_FMT_DATE)
   for tgt in run_conf["targets"].keys():
-    BuildImgList(run_conf["storage"] + tgt + DEF_IMG_DNAME + t_date, run_conf["targets"][tgt]["ext"])
+    BuildImgList(run_conf["storage"] + tgt, DEF_IMG_DNAME + t_date, run_conf["targets"][tgt]["ext"])
     ExecVideoBuild(run_conf["storage"] + tgt, t_date)
     DeleteOld(run_conf["storage"] + tgt, t_del)
