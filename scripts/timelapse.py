@@ -73,9 +73,11 @@ if __name__ == "__main__":
     _debug_level = 1
     _debug = lambda *args: _DebugPrint(*args)
   run_conf = LoadConfig(o_conf)
+  if run_conf["storage"][-1] != "/":
+    run_conf["storage"] += "/"
   dt -= datetime.timedelta(days = run_conf["keepimage"] - 1)
   t_del = dt.strftime(DEF_FMT_DATE)
   for tgt in run_conf["targets"].keys():
-    BuildImgList(run_conf["storage"] + "/" + tgt + DEF_IMG_DNAME + t_date, run_conf["targets"][tgt]["ext"])
-    ExecVideoBuild(run_conf["storage"] + "/" + tgt, t_date)
-    DeleteOld(run_conf["storage"] + "/" + tgt, t_del)
+    BuildImgList(run_conf["storage"] + tgt + DEF_IMG_DNAME + t_date, run_conf["targets"][tgt]["ext"])
+    ExecVideoBuild(run_conf["storage"] + tgt, t_date)
+    DeleteOld(run_conf["storage"] + tgt, t_del)
