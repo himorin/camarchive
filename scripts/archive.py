@@ -78,5 +78,5 @@ if __name__ == "__main__":
     fname = run_next.strftime(DEF_FMT_FULL)
     run_next += run_delta
     for tgt in run_conf["targets"].keys():
-      ArchiveImage(f_head, tgt + "/" + dname, fname + "." + run_conf["ext"], run_conf["targets"][tgt])
+      ArchiveImage(f_head, tgt + "/" + dname, fname, run_conf["targets"][tgt])
 
