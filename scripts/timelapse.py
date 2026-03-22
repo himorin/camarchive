@@ -42,7 +42,7 @@ def BuildImgList(dir, ext):
   img_list.sort()
   with open(dir + "/" + DEF_FLIST, 'w') as flist:
     for fname in img_list:
-      flist.write("file \"{}/{}\"\n".format(dir, fname))
+      flist.write("file '{}/{}'\n".format(dir, fname))
 
 def ExecVideoBuild(dir, t_date):
   cmd = ["ffmpeg", "-f", "concat", "-i", "{}/{}/{}/{}".format(dir, DEF_IMG_DNAME, t_date, DEF_FLIST), "-r",
