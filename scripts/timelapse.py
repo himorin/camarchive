@@ -34,6 +34,8 @@ def _DebugPrint(msg):
 
 def BuildImgList(base, dir, ext):
   img_list = []
+  if os.path.isdir(base + dir) == False:
+    return False
   alldir = os.listdir(base + dir)
   ext = "." + ext
   for fname in alldir:
@@ -43,6 +45,7 @@ def BuildImgList(base, dir, ext):
   with open(base + dir + "/" + DEF_FLIST, 'w') as flist:
     for fname in img_list:
       flist.write("file '{}'\n".format(fname))
+  return True
 
 def ExecVideoBuild(dir, t_date):
   os.makedirs(dir + "/" + DEF_MOV_DNAME, exist_ok = True)
@@ -81,8 +84,9 @@ if __name__ == "__main__":
   if run_conf["storage"][-1] != "/":
     run_conf["storage"] += "/"
   for tgt in run_conf["targets"].keys():
-    BuildImgList(run_conf["storage"] + tgt, DEF_IMG_DNAME + t_date, run_conf["targets"][tgt]["ext"])
-    ExecVideoBuild(run_conf["storage"] + tgt, t_date)
+    c_out = BuildImgList(run_conf["storage"] + tgt, DEF_IMG_DNAME + t_date, run_conf["targets"][tgt]["ext"])
+    if c_out == True:
+      ExecVideoBuild(run_conf["storage"] + tgt, t_date)
     if is_del:
       dt -= datetime.timedelta(days = run_conf["keepimage"] - 1)
       t_del = dt.strftime(DEF_FMT_DATE)
