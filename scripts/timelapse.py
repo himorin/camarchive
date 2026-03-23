@@ -62,6 +62,8 @@ if __name__ == "__main__":
   dt = datetime.datetime.now()
   dt -= datetime.timedelta(days = 1)
   t_date = dt.strftime(DEF_FMT_DATE)
+  dt -= datetime.timedelta(days = run_conf["keepimage"] - 1)
+  t_del = dt.strftime(DEF_FMT_DATE)
   if len(sys.argv) == 1:
     o_conf = DEF_CONF_NAME
   elif len(sys.argv) == 2:
@@ -69,6 +71,7 @@ if __name__ == "__main__":
   elif len(sys.argv) == 3:
     o_conf = sys.argv[1]
     t_date = sys.argv[2]
+    t_del = None
   else:
     raise Exception("Invalid parameter: command (<target_config>) (<target_date>)")
   c_debug = os.getenv('DEBUG')
@@ -78,9 +81,8 @@ if __name__ == "__main__":
   run_conf = LoadConfig(o_conf)
   if run_conf["storage"][-1] != "/":
     run_conf["storage"] += "/"
-  dt -= datetime.timedelta(days = run_conf["keepimage"] - 1)
-  t_del = dt.strftime(DEF_FMT_DATE)
   for tgt in run_conf["targets"].keys():
     BuildImgList(run_conf["storage"] + tgt, DEF_IMG_DNAME + t_date, run_conf["targets"][tgt]["ext"])
     ExecVideoBuild(run_conf["storage"] + tgt, t_date)
-    DeleteOld(run_conf["storage"] + tgt, t_del)
+    if t_del != None:
+      DeleteOld(run_conf["storage"] + tgt, t_del)
