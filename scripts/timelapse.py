@@ -49,11 +49,13 @@ def ExecVideoBuild(dir, t_date):
   cmd = ["ffmpeg", "-f", "concat", "-i", "./{}/{}/{}".format(DEF_IMG_DNAME, t_date, DEF_FLIST), "-r",
          "10", "-an", "-crf", "28", "-c:v", "libx265", "-preset", "veryfast", "-pix_fmt", "yuv420p", 
          "./{}/{}.mp4".format(DEF_MOV_DNAME, t_date)]
-  subprocess.run(cmd, cwd = dir)
+  subprocess.run(cmd, cwd = dir, stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
 
 def DeleteOld(dir, t_del):
   deldir = dir + "/" + DEF_IMG_DNAME + "/" + t_del
-  shutil.rmtree(deldir)
+  movfile = dir + "/" + DEF_MOV_DNAME + "/" + t_del + ".mp4"
+  if os.path.isfile(movfile) and os.path.isdir(deldir):
+    shutil.rmtree(deldir)
 
 if __name__ == "__main__":
   o_conf = ""
