@@ -6,6 +6,7 @@ import json
 import time
 import datetime
 import requests
+from requests.auth import HTTPDigestAuth
 
 DEF_CONF_NAME = "../common/config.json"
 DEF_FMT_DATE = "%Y%m%d"
@@ -27,7 +28,7 @@ def LoadConfig(conf_name):
   return run_conf
 
 def _DebugPrint(msg):
-  c_now = datetime.now().replace(microsecond = 0)
+  c_now = datetime.datetime.now().replace(microsecond = 0)
   print("{}: {}".format(c_now.isoformat(), msg))
 
 def CalcNearbyStartTime(interval):
@@ -43,9 +44,15 @@ def ArchiveImage(f_head, dname, fname, conf):
   # requests
   opt = {}
   if ("user" in conf) and ("pass" in conf):
-    opt["auth"] = (conf["user"], conf["pass"])
+    if ("auth" in conf) and (conf["auth"] == "digest"):
+      opt["auth"] = HTTPDigestAuth(conf["user"], conf["pass"])
+      _debug("using digest for: {}".format(conf["url"]))
+    else:
+      opt["auth"] = (conf["user"], conf["pass"])
+      _debug("using basic for: {}".format(conf["url"]))
   try:
     o_res = requests.get(conf["url"], **opt)
+    _debug("{} ({})".format(conf["url"], o_res.status_code))
     if o_res.status_code != requests.codes.ok:
       return
     if o_res.headers["Content-Type"].split("/")[0] != "image":
