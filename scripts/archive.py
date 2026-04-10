@@ -11,6 +11,7 @@ DEF_CONF_NAME = "../common/config.json"
 DEF_FMT_DATE = "%Y%m%d"
 DEF_FMT_FULL = "%Y%m%d%H%M%S"
 DEF_IMG_DNAME = "/image/"
+DEF_TIMEOUT = 1.5
 
 _debug = lambda *args: None
 _debug_level = 0
@@ -44,8 +45,12 @@ def ArchiveImage(f_head, dname, fname, conf):
   opt = {}
   if ("user" in conf) and ("pass" in conf):
     opt["auth"] = (conf["user"], conf["pass"])
+  if "timeout" in conf:
+    c_timeout = conf["timeout"]
+  else:
+    c_timeout = DEF_TIMEOUT
   try:
-    o_res = requests.get(conf["url"], **opt)
+    o_res = requests.get(conf["url"], timeout=c_timeout, **opt)
     if o_res.status_code != requests.codes.ok:
       return
     if o_res.headers["Content-Type"].split("/")[0] != "image":
@@ -54,6 +59,7 @@ def ArchiveImage(f_head, dname, fname, conf):
       for chunk in o_res.iter_content(chunk_size=128):
         fd.write(chunk)
   except Exception as e:
+    # incl. timeout, connection error, etc. (no handling for them, just no data saved)
     _debug("Failed to archive image (%s): %s" % (save_to, e))
 
 if __name__ == "__main__":
