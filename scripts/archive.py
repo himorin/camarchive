@@ -11,7 +11,8 @@ DEF_CONF_NAME = "../common/config.json"
 DEF_FMT_DATE = "%Y%m%d"
 DEF_FMT_FULL = "%Y%m%d%H%M%S"
 DEF_IMG_DNAME = "/image/"
-DEF_TIMEOUT = 1.5
+DEF_TIMEOUT = 1.5 # HTTP query timeout, default to 1.5sec
+DEF_CONF_RELOAD = 600 # configuration file reload per 10min
 
 _debug = lambda *args: None
 _debug_level = 0
@@ -77,6 +78,9 @@ if __name__ == "__main__":
   run_conf = LoadConfig(o_conf)
   run_next = CalcNearbyStartTime(run_conf["interval"])
   run_delta = datetime.timedelta(seconds = run_conf["interval"])
+  conf_next = datetime.datetime.now()
+  conf_delta = datetime.timedelta(seconds = DEF_CONF_RELOAD)
+  conf_next += conf_delta
   f_head = run_conf["storage"]
   while True:
     # sleep until next start (not exactly)
@@ -87,4 +91,13 @@ if __name__ == "__main__":
     for tgt in run_conf["targets"].keys():
       # XXX: for now, no thread used here
       ArchiveImage(f_head, tgt + DEF_IMG_DNAME + dname, fname, run_conf["targets"][tgt])
-
+    # reload configuration if needed
+    if datetime.datetime.now() >= conf_next:
+      try:
+        c_dat = LoadConfig(o_conf)
+        run_conf = c_dat
+        _debug("Configuration reloaded") # no check for data changed
+      except Exception as e:
+        # do nothing if error occurs on reloading, just use current config
+        _debug("Failed to reload configuration: %s" % (e))
+      conf_next += conf_delta
