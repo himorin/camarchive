@@ -7,12 +7,7 @@ import datetime
 import subprocess
 import shutil
 
-DEF_CONF_NAME = "../common/config.json"
-DEF_FMT_DATE = "%Y%m%d"
-DEF_FMT_FULL = "%Y%m%d%H%M%S"
-DEF_FLIST = "imglist"
-DEF_IMG_DNAME = "/image/"
-DEF_MOV_DNAME = "/movie/"
+from scripts_defs import *
 
 _debug = lambda *args: None
 _debug_level = 0

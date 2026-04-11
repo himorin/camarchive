@@ -8,12 +8,7 @@ import datetime
 import requests
 from requests.auth import HTTPDigestAuth
 
-DEF_CONF_NAME = "../common/config.json"
-DEF_FMT_DATE = "%Y%m%d"
-DEF_FMT_FULL = "%Y%m%d%H%M%S"
-DEF_IMG_DNAME = "/image/"
-DEF_TIMEOUT = 1.5 # HTTP query timeout, default to 1.5sec
-DEF_CONF_RELOAD = 600 # configuration file reload per 10min
+from scripts_defs import *
 
 _debug = lambda *args: None
 _debug_level = 0
