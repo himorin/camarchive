@@ -104,9 +104,8 @@ sub LOCATIONS {
     # detaint
     $inspath =~ /(.*)/;
     $inspath = $1;
-    if (($inspath eq '.') || ($inspath eq '..')) {
-       $inspath = getcwd();
-    }
+    if ($inspath eq '.') { $inspath = getcwd(); }
+    elsif ($inspath eq '..') { $inspath = dirname(getcwd()); }
     return {
         'cgi'        => $inspath,
         'config'     => dirname($inspath) . '/common/',
