@@ -196,13 +196,15 @@ load('Image::Magick');
 my $c_imk = Image::Magick->new;
 $c_imk->Read($t_fname);
 my $c_fadd = '';
+my $c_imk_geo = '';
 if (defined($c_img_width)) {
-  $c_imk->Thumbnail(width => $c_img_width);
+  $c_imk_geo = $c_img_width . 'x';
   $c_fadd = 'w' . $c_img_width;
 } else {
-  $c_imk->Thumbnail(height => $c_img_height);
+  $c_imk_geo = 'x' . $c_img_height;
   $c_fadd = 'h' . $c_img_height;
 }
+$c_imk->Thumbnail(geometry => $c_imk_geo);
 $c_fadd = '-' . $c_fadd . '.' . PNAPI::Constants::IMG_FMT_DEF;
 $obj_cgi->set_type(PNAPI::Constants::IMG_FMT->{PNAPI::Constants::IMG_FMT_DEF});
 print $obj_cgi->header(200,
