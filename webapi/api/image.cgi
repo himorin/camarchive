@@ -59,7 +59,7 @@ if (defined($c_tgt_near)) {
   }
 }
 my ($t_date, $t_time);
-my $t_dt = DateTime->new( time_zone => 'local' );
+my $t_dt = DateTime->now( time_zone => 'local' );
 if ((! defined($c_tgt_date)) && (! defined($c_tgt_time))) {
   $t_near_flag = 'b';
 }
