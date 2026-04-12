@@ -105,13 +105,13 @@ if (-f $obj_tgtroot . '/' . $t_date . '/' . $t_date . $t_time . '.' . $obj_tgt->
   }
   $to_date = $to_dt->ymd('');
   $to_time = $to_dt->hms('');
-  $t_ext = $obj_tgt->{'ext'};
+  my $t_ext = $obj_tgt->{'ext'};
   if (-d $obj_tgtroot . '/' . $t_date) {
     # 1st: search for the day
-    opendir(local $dh, $obj_tgtroot . '/' . $t_date);
-    local @files = readdir($dh);
+    opendir(my $dh, $obj_tgtroot . '/' . $t_date);
+    my @files = readdir($dh);
     closedir($dh);
-    local $c_ctgt = undef;
+    my $c_ctgt = undef;
     foreach (@files) {
       if ($_ =~ /^\d{8}(\d{6}).$t_ext$/) {
         if ((($t_near_flag eq 'a') && ($1 > $t_time) && (($t_near_sec == 0) || (! defined($c_ctgt)) || ($1 < $c_ctgt))) ||
@@ -136,10 +136,10 @@ if (-f $obj_tgtroot . '/' . $t_date . '/' . $t_date . $t_time . '.' . $obj_tgt->
       exit;
     }
     # obj_tgtroot shall exist (already checked)
-    opendir(local $dh, $obj_tgtroot);
-    local @dirs = readdir($dh);
+    opendir(my $dh, $obj_tgtroot);
+    my @dirs = readdir($dh);
     closedir($dh);
-    local $c_dtgt = undef;
+    my $c_dtgt = undef;
     # search the nearest target date
     # image storage is limited to certain range of days, performance is not issue here
     foreach (@dirs) {
@@ -152,9 +152,9 @@ if (-f $obj_tgtroot . '/' . $t_date . '/' . $t_date . $t_time . '.' . $obj_tgt->
     }
     if (defined($c_dtgt)) {
       if ($c_dtgt != $t_date) { $t_near_sec = 0; } # if date is not at edge, pick any at most side
-      local $c_ttgt = undef;
-      opendir(local $dh, $obj_tgtroot . '/' . $c_dtgt);
-      local @files = readdir($dh);
+      my $c_ttgt = undef;
+      opendir(my $dh, $obj_tgtroot . '/' . $c_dtgt);
+      my @files = readdir($dh);
       closedir($dh);
       foreach (@files) {
         if ($_ =~ /^\d{8}(\d{6}).$t_ext$/) {
