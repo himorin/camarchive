@@ -194,13 +194,13 @@ if (! (defined($c_img_height) || defined($c_img_width))) {
 
 load('Image::Magick');
 my $c_imk = Image::Magick->new;
-my $c_fh = $c_imk->Read($t_fname);
+$c_imk->Read($t_fname);
 my $c_fadd = '';
 if (defined($c_img_width)) {
-  $c_fh->Thumbnail(width => $c_img_width);
+  $c_imk->Thumbnail(width => $c_img_width);
   $c_fadd = 'w' . $c_img_width;
 } else {
-  $c_fh->Thumbnail(height => $c_img_height);
+  $c_imk->Thumbnail(height => $c_img_height);
   $c_fadd = 'h' . $c_img_height;
 }
 $c_fadd = '-' . $c_fadd . '.' . PNAPI::Constants::IMG_FMT_DEF;
@@ -209,6 +209,6 @@ print $obj_cgi->header(200,
   -Content_Disposition => 'inline; filename="' . (split('/', $t_fname))[-1] . $c_fadd . '"',
 );
 binmode STDOUT, ':bytes';
-$c_fh->Write(PNAPI::Constants::IMG_FMT_DEF_IMK);
+$c_imk->Write(PNAPI::Constants::IMG_FMT_DEF_IMK);
 
 exit;
