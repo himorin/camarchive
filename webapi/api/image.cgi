@@ -50,9 +50,9 @@ my $obj_tgtroot = $obj_config->get('storage') . '/' . $c_target . '/' . PNAPI::C
 my $t_near_flag = undef;
 my $t_near_sec = 0;
 if (defined($c_tgt_near)) {
-  if ($c_tgt_near =~ /^([ab])(\d+)$/) {
+  if ($c_tgt_near =~ /^([ab])(\d*)$/) {
     $t_near_flag = $1;
-    $t_near_sec = $2;
+    $t_near_sec = $2 || 0;
   } else {
     $obj_cgi->send_error(DEF_PARAM_ERR, "parameter error (near)");
     exit;
