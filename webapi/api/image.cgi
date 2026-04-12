@@ -114,8 +114,9 @@ if (-f $obj_tgtroot . '/' . $t_date . '/' . $t_date . $t_time . '.' . $obj_tgt->
     my $c_ctgt = undef;
     foreach (@files) {
       if ($_ =~ /^\d{8}(\d{6}).$t_ext$/) {
-        if ((($t_near_flag eq 'a') && ($1 > $t_time) && ($t_near_sec == 0) && ((! defined($c_ctgt)) || ($1 < $c_ctgt))) ||
-            (($t_near_flag eq 'b') && ($1 < $t_time) && ($t_near_sec == 0) && ((! defined($c_ctgt)) || ($1 > $c_ctgt)))) {
+        # just pick the nearest, check condition later
+        if ((($t_near_flag eq 'a') && ($1 > $t_time) && ((! defined($c_ctgt)) || ($1 < $c_ctgt))) ||
+            (($t_near_flag eq 'b') && ($1 < $t_time) && ((! defined($c_ctgt)) || ($1 > $c_ctgt)))) {
           $c_ctgt = $1;
         }
       }
