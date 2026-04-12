@@ -72,7 +72,7 @@ use constant FILES_CONFIRMED_OK => 1;
 use constant HASH_DIRSIZE       => 2;
 
 use constant PNAPI_VERSION => "0.1";
-use constant PNAPI_CONFIG => "onfig.json";
+use constant PNAPI_CONFIG => "config.json";
 use constant HASH_PREVIEW => 'jpg';
 use constant DEF_LANG     => 'ja';
 
