@@ -40,6 +40,8 @@ use Cwd;
   FMT_FULL
   IMG_DNAME
   MOV_DNAME
+  MOV_EXT
+  MOV_MIME
   IMG_FMT
   IMG_FMT_DEF
   IMG_FMT_DEF_IMK
@@ -50,6 +52,8 @@ use constant FMT_DATE     => "%Y%m%d";
 use constant FMT_FULL     => "%Y%m%d%H%M%S";
 use constant IMG_DNAME    => "/image/";
 use constant MOV_DNAME    => "/movie/";
+use constant MOV_EXT      => ".mp4";
+use constant MOV_MIME     => "video/mp4";
 use constant IMG_FMT      => {
   'jpg' => 'image/jpeg',
   'png' => 'image/png',

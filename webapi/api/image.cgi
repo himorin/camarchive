@@ -17,8 +17,6 @@ use constant DEF_NO_TARGET  => 404;
 my $obj_cgi = new PNAPI::CGI;
 my $obj_config = new PNAPI::Config;
 
-my $ret = {};
-
 # XXX: include auth module call here
 
 my $c_target = $obj_cgi->param('target'); # target camera name
