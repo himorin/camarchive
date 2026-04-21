@@ -115,7 +115,6 @@ my $fdat_size = -s $fdat_name;
 if (defined($ENV{'REQUEST_METHOD'}) && ($ENV{'REQUEST_METHOD'} eq 'HEAD')) {
   print $obj_cgi->header(200,
     -type => PNAPI::Constants::MOV_MIME . "; name=\"$fdat_fn\"",
-    -content_disposition => "attachment; filename=\"$fdat_fn\"",
     -content_length => $fdat_size,
     -accept_ranges => 'bytes',
   );
@@ -127,7 +126,6 @@ if (! defined($q_range)) {
   # simply stream
   print $obj_cgi->header(200,
     -type => PNAPI::Constants::MOV_MIME . "; name=\"$fdat_fn\"",
-    -content_disposition => "attachment; filename=\"$fdat_fn\"",
     -content_length => $fdat_size,
     -accept_ranges => 'bytes',
   );
@@ -152,7 +150,6 @@ if (($qr_start > $qr_end) || ($qr_end >= $fdat_size)) {
 
 print $obj_cgi->header(200,
   -type => PNAPI::Constants::MOV_MIME . "; name=\"$fdat_fn\"",
-  -content_disposition => "attachment; filename=\"$fdat_fn\"",
   -content_length => ($qr_end - $qr_start + 1),
   -content_range => "bytes $qr_start-$qr_end/" . $fdat_size,
   -accept_ranges => 'bytes',
