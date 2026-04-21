@@ -141,7 +141,7 @@ if ($q_range !~ /^bytes=([0-9]+)-([0-9]+)?$/) {
   exit;
 }
 $qr_start = $1;
-if (defined($2)) { $er_end = $2; } else { $qr_end = $fdat_size - 1; }
+if (defined($2)) { $qr_end = $2; } else { $qr_end = $fdat_size - 1; }
 if (($qr_start > $qr_end) || ($qr_end >= $fdat_size)) {
   $obj_cgi->send_error(DEF_PARAM_ERR, "HTTP_RANGE (invalid range)");
   exit;
