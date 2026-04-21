@@ -111,10 +111,10 @@ if (defined($c_tgt_mode) && ($c_tgt_mode eq DEF_P_MODE_THUMB)) {
 }
 
 my $fdat_size = -s $fdat_name;
+$obj_cgi->set_type(PNAPI::Constants::MOV_MIME . "; name=\"$fdat_fn\"");
 # for movie, check REQUEST_METHOD
 if (defined($ENV{'REQUEST_METHOD'}) && ($ENV{'REQUEST_METHOD'} eq 'HEAD')) {
   print $obj_cgi->header(200,
-    -type => PNAPI::Constants::MOV_MIME . "; name=\"$fdat_fn\"",
     -content_length => $fdat_size,
     -accept_ranges => 'bytes',
   );
@@ -125,7 +125,6 @@ my $q_range = $ENV{'HTTP_RANGE'};
 if (! defined($q_range)) {
   # simply stream
   print $obj_cgi->header(200,
-    -type => PNAPI::Constants::MOV_MIME . "; name=\"$fdat_fn\"",
     -content_length => $fdat_size,
     -accept_ranges => 'bytes',
   );
@@ -149,7 +148,6 @@ if (($qr_start > $qr_end) || ($qr_end >= $fdat_size)) {
 }
 
 print $obj_cgi->header(200,
-  -type => PNAPI::Constants::MOV_MIME . "; name=\"$fdat_fn\"",
   -content_length => ($qr_end - $qr_start + 1),
   -content_range => "bytes $qr_start-$qr_end/" . $fdat_size,
   -accept_ranges => 'bytes',
